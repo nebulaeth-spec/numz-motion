@@ -1,12 +1,17 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath,pathToFileURL} from 'node:url';
+import {createHash} from 'node:crypto';
 const root=path.dirname(fileURLToPath(import.meta.url));
 const localDeps=process.env.ATLAS_NODE_MODULES;
 const {build}=await import(localDeps?pathToFileURL(path.join(localDeps,'esbuild/lib/main.js')).href:'esbuild');
 const result=await build({absWorkingDir:root,entryPoints:['src/App.tsx'],bundle:true,format:'iife',platform:'browser',target:['es2020'],jsx:'automatic',minify:true,write:false,loader:{'.css':'text'},nodePaths:localDeps?[localDeps]:[],define:{'process.env.NODE_ENV':'"production"'},metafile:true,legalComments:'eof'});
 if(Object.values(result.metafile.outputs).flatMap(x=>x.imports).some(x=>x.external))throw Error('External runtime dependency');
 await fs.writeFile(path.join(root,'app.js'),result.outputFiles[0].text);
+const revision=createHash('sha256').update(result.outputFiles[0].text).digest('hex').slice(0,12);
+const indexPath=path.join(root,'index.html');
+const markup=await fs.readFile(indexPath,'utf8');
+await fs.writeFile(indexPath,markup.replace(/src="\.\/app\.js(?:\?v=[a-f0-9]+)?"/,`src="./app.js?v=${revision}"`));
 const notices=new Map();
 for(const input of Object.keys(result.metafile.inputs)){
  if(!input.includes('node_modules'))continue;
