@@ -1,0 +1,74 @@
+/* Shared numz editorial typography. */
+.fomo-document {
+  --fomo-font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-sans: var(--fomo-font-family);
+  --fomo-padding-top: 42px;
+  --fomo-padding-inline: 32px;
+  --fomo-padding-bottom: 64px;
+  --fomo-section-gap: 68px;
+  --fomo-first-section-gap: 44px;
+  font-family: var(--fomo-font-family);
+  font-synthesis: none;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.75;
+}
+/* Inline prose emphasis matches the approved article; kit/UI keeps its own roles. */
+.fomo-document strong, .fomo-document b { font-weight: 600; }
+.fomo-doc-content {
+  padding: var(--fomo-padding-top) var(--fomo-padding-inline) var(--fomo-padding-bottom);
+}
+.fomo-doc-title {
+  margin: 12px 0 22px;
+  font: 600 clamp(32px, 4.5vw, 42.4px)/1.16 var(--fomo-font-family);
+  letter-spacing: -1.2px;
+  text-wrap: balance;
+}
+.fomo-doc-section-title {
+  margin: var(--fomo-section-gap) 0 10px;
+  font: 600 26px/1.4 var(--fomo-font-family);
+  letter-spacing: -.4px;
+  text-wrap: balance;
+}
+.fomo-doc-first-section { margin-top: var(--fomo-first-section-gap); }
+.fomo-doc-subtitle, .fomo-figure-title {
+  margin: 0 0 13px;
+  font: 600 18.4px/1.5 var(--fomo-font-family);
+  letter-spacing: -.2px;
+}
+.fomo-doc-lead {
+  margin: 0 0 17px;
+  font: 400 18px/1.7 var(--fomo-font-family);
+}
+.fomo-doc-paragraph {
+  margin: 0 0 17px;
+  font: 400 16px/1.75 var(--fomo-font-family);
+}
+.fomo-doc-caption, .fomo-figure-caption {
+  font: 400 14px/1.7 var(--fomo-font-family);
+}
+.fomo-figure { margin: 24px 0; font-family: var(--fomo-font-family); }
+.fomo-figure-label { font: 400 14px/20px var(--fomo-font-family); }
+.fomo-figure-axis { font: 400 12px/18px var(--fomo-font-family); }
+.fomo-figure-caption { margin: 20px 0 0; }
+.fomo-figure-subtitle { margin: 0 0 20px; font: 400 14px/1.7 var(--fomo-font-family); }
+.fomo-doc-disclosure-trigger {
+  padding: 22px 0;
+  font: 500 20px/1.5 var(--fomo-font-family);
+  letter-spacing: -.2px;
+}
+.fomo-doc-disclosure-content { padding: 9px 0 30px; }
+@media (max-width: 670px) {
+  .fomo-document {
+    --fomo-padding-top: 28px;
+    --fomo-padding-inline: 20px;
+    --fomo-padding-bottom: 40px;
+    --fomo-section-gap: 46px;
+  }
+  .fomo-doc-section-title { font-size: 24px; }
+  .fomo-doc-disclosure-trigger { padding: 20px 0; font-size: 19px; }
+  .fomo-doc-disclosure-content { padding: 5px 0 25px; }
+}
+@media (max-width: 620px) {
+  .fomo-doc-title { font-size: 32px; letter-spacing: -.8px; }
+}
