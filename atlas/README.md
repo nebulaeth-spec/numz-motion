@@ -1,8 +1,8 @@
-# numz: Brand Atlas
+# Brand Atlas by elo
 
 [Open the atlas](https://nebulaeth-spec.github.io/numz-motion/atlas/)
 
-A first collection of eight brand studies in English and Russian. The interface stays in English. Light and dark themes inherit the palette and embedded Inter fonts of Landing Motion.
+A personal collection by elo, starting with eight brand studies in English and Russian. The interface stays in English. Light and dark themes inherit the palette and embedded Inter fonts of Landing Motion.
 
 ## Extend the collection
 
