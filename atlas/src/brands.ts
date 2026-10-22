@@ -1,5 +1,7 @@
 export type CaseCopy = {short:string;title:string;decision:string;question:string;application:string;test:string;failure:string;limit:string;diagram:[string,string]};
-export type BrandCase = {id:string;name:string;topics:string[];dates:string;who:string;source:string;published:string;url:string;related:string;ru:CaseCopy;en:CaseCopy};
+export type BrandFinding = {id:string;source:string;url:string;ru:string[];en:string[]};
+export type CaseDate = {label:string;value:string;kind:'published'|'launched'};
+export type BrandCase = {id:string;name:string;topics:string[];dates:string;who:string;source:string;published:string;url:string;related:string;ru:CaseCopy;en:CaseCopy;findings?:BrandFinding[];date?:CaseDate};
 export const brands: BrandCase[] = [
   {
     "id": "ambrook",
@@ -12,6 +14,7 @@ export const brands: BrandCase[] = [
     "who": "Ali Aas",
     "source": "Ali Aas, Creative Director at Ambrook",
     "published": "24 Oct 2025",
+    "date": {"label":"24 Oct 2025","value":"2025-10-24","kind":"published"},
     "url": "https://ambrook.com/blog/inside-ambrook/on-art-and-marketing",
     "related": "mercury",
     "ru": {
@@ -54,6 +57,7 @@ export const brands: BrandCase[] = [
     "who": "Steph Lusby Studio Freight",
     "source": "Steph Lusby, In-house Design Manager",
     "published": "Project launched Sep 2023",
+    "date": {"label":"Sep 2023","value":"2023-09","kind":"launched"},
     "url": "https://www.stephlusby.com/brex-ai",
     "related": "phantom",
     "ru": {
@@ -96,6 +100,7 @@ export const brands: BrandCase[] = [
     "who": "Damien Correll Jefferson Cheng Leandro Castelao Maria Chimishkyan Carly Ayres",
     "source": "Figma Brand Studio, reported by Carly Ayres",
     "published": "16 Sep 2024",
+    "date": {"label":"16 Sep 2024","value":"2024-09-16","kind":"published"},
     "url": "https://www.figma.com/blog/figma-on-figma-evolving-our-visual-language/",
     "related": "morph",
     "ru": {
@@ -138,6 +143,7 @@ export const brands: BrandCase[] = [
     "who": "Robb Böhnke",
     "source": "Robb Böhnke, Linear engineering",
     "published": "21 Oct 2025",
+    "date": {"label":"21 Oct 2025","value":"2025-10-21","kind":"published"},
     "url": "https://linear.app/now/linear-liquid-glass",
     "related": "notion",
     "ru": {
@@ -180,6 +186,7 @@ export const brands: BrandCase[] = [
     "who": "Sarah Mohammadi Andreion de Castro",
     "source": "Andreion de Castro, interviewed by Sarah Mohammadi",
     "published": "11 Mar 2026",
+    "date": {"label":"11 Mar 2026","value":"2026-03-11","kind":"published"},
     "url": "https://mercury.com/blog/insights-financial-data-art",
     "related": "ambrook",
     "ru": {
@@ -264,6 +271,7 @@ export const brands: BrandCase[] = [
     "who": "Katie Chang Rob Giampietro Roman Muradov BUCK",
     "source": "Katie Chang, Head of Creative Strategy & Operations",
     "published": "10 Jul 2024",
+    "date": {"label":"10 Jul 2024","value":"2024-07-10","kind":"published"},
     "url": "https://www.notion.com/blog/the-thinking-behind-our-latest-brand-campaign",
     "related": "morph",
     "ru": {
@@ -308,9 +316,22 @@ export const brands: BrandCase[] = [
     "published": "Publication date not stated",
     "url": "https://bakkenbaeck.com/case/phantom",
     "related": "brex",
+    "findings": [{
+      "id": "cash-extension",
+      "source": "Bakken & Bæck, Phantom Cash case study",
+      "url": "https://bakkenbaeck.com/case/phantom",
+      "ru": [
+        "Для Phantom Cash студия Bakken & Bæck получила бриф на более выразительный язык, рассчитанный на широкую финансовую аудиторию. Градиенты, стикеры и 3D вошли в расширение, охватившее страницу Cash, карту, токен и онбординг.",
+        "Диапазон изменений оказался привязан к конкретному предложению внутри Phantom. Даже более смелая типографика продолжает существующее семейство: для крупных надписей добавлено начертание Phantom Sans с инктрапами. Здесь вариативность задана областью применения: новые приёмы объединяют поверхности Cash, сохраняя связь с основной системой."
+      ],
+      "en": [
+        "For Phantom Cash, Bakken & Bæck received a brief for a more expressive visual language aimed at a broader consumer finance audience. Gradients, stickers and 3D became part of an extension spanning the Cash page, card, token and onboarding.",
+        "The change had a defined scope: one offering within Phantom. Even the bolder typography extended an existing family, using a Phantom Sans inktrap weight for display. Here, variation is organized around a product: new techniques tie Cash’s surfaces together while retaining a connection to the core system."
+      ]
+    }],
     "ru": {
-      "short": "Определить область расширения айдентики",
-      "title": "Новому продукту можно дать отдельный диапазон",
+      "short": "Отдельный визуальный диапазон для Cash",
+      "title": "Более смелый язык для Phantom Cash",
       "decision": "Кейс Bakken & Bæck описывает расширение для Phantom Cash: выразительную типографику, многотональные градиенты, стикеры и 3D. Этот набор относится к конкретному предложению внутри более широкого бренда.",
       "question": "Как попробовать более смелую технику без обязательной переделки всей системы?",
       "application": "Если отдельной функции нужно другое настроение, описать её расширение отдельно: где оно действует, что берёт из основы и какие новые приёмы добавляет. Затем проверить соседство с основной коммуникацией.",
@@ -323,8 +344,8 @@ export const brands: BrandCase[] = [
       ]
     },
     "en": {
-      "short": "Define where the identity extension applies",
-      "title": "A new product can have its own expressive range",
+      "short": "A distinct expressive range for Cash",
+      "title": "A more expressive language for Phantom Cash",
       "decision": "Bakken & Bæck describes an extension for Phantom Cash: expressive type, multitone gradients, stickers and 3D. These elements belong to a particular offering within the wider brand.",
       "question": "How can we try a bolder technique without committing the whole system to it?",
       "application": "If a feature needs a different mood, define its extension separately: where it applies, what it inherits and which techniques it adds. Then check it alongside core communication.",

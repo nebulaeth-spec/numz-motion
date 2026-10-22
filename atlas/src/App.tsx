@@ -15,7 +15,7 @@ type Lang='ru'|'en';
 type State={lang:Lang;q:string;mode:'alphabet'|'characteristics';letter:string;topic:string;selected:string;reading:boolean};
 const alphabet=[...new Set(brands.map(b=>b.name[0].toUpperCase()))].sort();
 const labels={all:'All',variation:'Variation',character:'Character',motion:'Motion',production:'Production',extension:'Extension',evolution:'Evolution'};
-function visible(s:State){return brands.filter(b=>(s.mode==='alphabet'?(s.letter==='all'||b.name[0].toUpperCase()===s.letter):(s.topic==='all'||b.topics.includes(s.topic)))&&[b.name,b.who,...Object.values(b.ru),...Object.values(b.en)].flat().join(' ').toLowerCase().includes(s.q.toLowerCase().trim())).sort((a,b)=>a.name.localeCompare(b.name,'en',{sensitivity:'base',numeric:true}));}
+function visible(s:State){return brands.filter(b=>(s.mode==='alphabet'?(s.letter==='all'||b.name[0].toUpperCase()===s.letter):(s.topic==='all'||b.topics.includes(s.topic)))&&[b.name,b.who,...(b.findings?[b.ru.short,b.ru.title,...b.ru.diagram,b.en.short,b.en.title,...b.en.diagram,...b.findings.flatMap(f=>[f.source,...f.ru,...f.en])]:[...Object.values(b.ru),...Object.values(b.en)])].flat().join(' ').toLowerCase().includes(s.q.toLowerCase().trim())).sort((a,b)=>a.name.localeCompare(b.name,'en',{sensitivity:'base',numeric:true}));}
 function normalize(s:State){const list=visible(s);return {...s,selected:list.some(b=>b.id===s.selected)?s.selected:list[0]?.id||'',reading:list.length?s.reading:false};}
 function read():State{const p=new URLSearchParams(location.search);let saved='ru';try{saved=localStorage.getItem('numz-atlas-language')||'ru'}catch{}return normalize({lang:(p.get('lang')||saved)==='en'?'en':'ru',q:p.get('q')||'',mode:p.get('view')==='characteristics'?'characteristics':'alphabet',letter:alphabet.includes(p.get('letter')||'')?p.get('letter')!:'all',topic:Object.hasOwn(labels,p.get('topic')||'')?p.get('topic')!:'all',selected:p.get('brand')||'morph',reading:p.get('read')==='1'});}
 function url(s:State){const p=new URLSearchParams();p.set('lang',s.lang);if(s.selected)p.set('brand',s.selected);if(s.mode==='characteristics')p.set('view',s.mode);if(s.letter!=='all')p.set('letter',s.letter);if(s.topic!=='all')p.set('topic',s.topic);if(s.q)p.set('q',s.q);if(s.reading)p.set('read','1');return location.pathname+'?'+p.toString();}
@@ -27,7 +27,7 @@ function App(){
  const [s,set]=useState(read);const [theme,setTheme]=useState(document.documentElement.dataset.theme==='dark'?'dark':'light');
  const [copied,setCopied]=useState(false);const scroll=useRef(0);const detail=useRef<HTMLElement>(null);
  const filtered=visible(s),current=filtered.find(b=>b.id===s.selected);
- const compactReading=current?.id==='phantom';
+ const narrativeReading=Boolean(current?.findings?.length);
  function change(patch:Partial<State>,replace=false){const next=normalize({...s,...patch});set(next);history[replace?'replaceState':'pushState'](null,'',url(next));try{localStorage.setItem('numz-atlas-language',next.lang)}catch{}setCopied(false);}
  useEffect(()=>{const pop=()=>{set(read());setCopied(false)};window.addEventListener('popstate',pop);return()=>window.removeEventListener('popstate',pop)},[]);
  useEffect(()=>{document.documentElement.lang=s.lang;document.title=current?`${current.name} | Brand Atlas by elo`:'Brand Atlas by elo'},[s.lang,current?.id]);
@@ -46,17 +46,17 @@ function App(){
   <div className="catalog-layout"><section id="directory" className="catalog" aria-label="Brand directory" tabIndex={-1}><div className="catalog-meta" lang="en"><span className="muted fomo-doc-caption" role="status">{filtered.length} {filtered.length===1?'brand':'brands'}</span><span className="muted fomo-doc-caption">Index</span></div>{filtered.map(b=><button key={b.id} className="brand-row" data-brand={b.id} aria-pressed={current?.id===b.id} onClick={()=>open(b.id)}><span className="brand-name">{b.name}</span><span className="row-sign" aria-hidden="true">{current?.id===b.id?'→':'↗'}</span><span className="row-take">{b[s.lang].short}</span></button>)}{!filtered.length&&<div className="empty" lang="en"><p>No matches</p><Button variant="outline" onClick={()=>change({q:'',letter:'all',topic:'all'})}>Show all brands</Button></div>}</section>
   {current&&<article id="case" className="detail" aria-label={current.name} ref={detail} tabIndex={-1}>
    <Button className="mobile-back" variant="ghost" onClick={back} lang="en">← Back to directory</Button>
-   <div className="detail-head"><div className="fomo-doc-caption muted">{current.name}{current.dates&&<span className="period">{current.dates}</span>}</div><Button className="copy-link" size="sm" variant="ghost" onClick={copy} lang="en">{copied?'Copied':'Copy link'}</Button><span className="sr-only" role="status">{copied?'Link copied':''}</span></div>
+   <div className="detail-head"><div className="fomo-doc-caption muted"><span>{current.name}</span>{current.date&&<time className="period" dateTime={current.date.value} title={current.date.kind==='published'?'Source publication date':'Project launch date'} aria-label={`${current.date.kind==='published'?'Source published':'Project launched'} ${current.date.label}`} lang="en">{current.date.label}</time>}</div><Button className="copy-link" size="sm" variant="ghost" onClick={copy} lang="en">{copied?'Copied':'Copy link'}</Button><span className="sr-only" role="status">{copied?'Link copied':''}</span></div>
    <div key={current.id} className="case-content">
     <h2 className="fomo-doc-section-title take">{current[s.lang].title}</h2>
-    <Figure kind={current.id} labels={current[s.lang].diagram} quietCaption={compactReading}/>
-    {!compactReading&&<p className="take-label fomo-doc-caption muted" lang="en">The decision</p>}
+    <Figure kind={current.id} labels={current[s.lang].diagram} quietCaption={narrativeReading}/>
+    {narrativeReading?<div className="findings">{current.findings!.map(finding=><div className="finding" id={`finding-${current.id}-${finding.id}`} key={finding.id}>
+     {finding[s.lang].map((paragraph,i)=><p className="fomo-doc-paragraph" key={i}>{paragraph}</p>)}
+     <div className="finding-source"><a className="fomo-doc-caption" href={finding.url} target="_blank" rel="noreferrer" lang="en">{finding.source}<span aria-hidden="true">{'\u00a0'}↗</span></a></div>
+    </div>)}</div>:<>
+    <p className="take-label fomo-doc-caption muted" lang="en">The decision</p>
     <p className="fomo-doc-paragraph">{current[s.lang].decision}</p>
-    {compactReading?<>
-     <a className="compact-source fomo-doc-caption" href={current.url} target="_blank" rel="noreferrer" lang="en">{current.source} <span aria-hidden="true">↗</span></a>
-     <div className="compact-insights">{current[s.lang].application.split(/\n\s*\n/).map((insight,i)=><p className="fomo-doc-caption" key={i}>{insight}</p>)}</div>
-    </>:<>
-    <div className="source-note fomo-doc-caption" lang="en"><span>Author’s account</span><a className="source" href={current.url} target="_blank" rel="noreferrer">Read the source ↗</a><span>{current.source}</span><span>{current.published}</span></div>
+    <div className="source-note fomo-doc-caption" lang="en"><span>Author’s account</span><a className="source" href={current.url} target="_blank" rel="noreferrer">Read the source ↗</a><span>{current.source}</span></div>
     <p className="evidence-limit fomo-doc-caption">{current[s.lang].limit}</p>
     <section className="application" aria-label="Application to our brief">
      <p className="take-label fomo-doc-caption muted" lang="en">For our brief</p>
