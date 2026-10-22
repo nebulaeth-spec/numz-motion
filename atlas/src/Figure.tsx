@@ -16,9 +16,9 @@ function Drawing({kind,second}:{kind:string;second:boolean}){
  <><path className="ghost" d="M20 82H140"/><rect x="20" y="44" width={second?110:37} height="24" rx="3"/>{second&&<path strokeDasharray="3 4" d="M130 44H151M130 68H151"/>}</>}
  </g></svg>
 }
-export function Figure({kind,labels}:{kind:string;labels:[string,string]}){
+export function Figure({kind,labels,quietCaption=false}:{kind:string;labels:[string,string];quietCaption?:boolean}){
  return <figure className="case-figure" aria-label={labels.join(' → ')}>
  <div className="diagram-pair">{labels.map((label,i)=><div className="diagram-panel" key={i}><Drawing kind={kind} second={i===1}/><p className="fomo-figure-label">{label}</p></div>)}</div>
- <figcaption className="fomo-doc-caption muted" lang="en">Editorial schematic, not original artwork</figcaption>
+ <figcaption className={quietCaption?'sr-only':'fomo-doc-caption muted'} lang="en">Editorial schematic, not original artwork</figcaption>
  </figure>
 }

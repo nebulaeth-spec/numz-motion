@@ -27,6 +27,7 @@ function App(){
  const [s,set]=useState(read);const [theme,setTheme]=useState(document.documentElement.dataset.theme==='dark'?'dark':'light');
  const [copied,setCopied]=useState(false);const scroll=useRef(0);const detail=useRef<HTMLElement>(null);
  const filtered=visible(s),current=filtered.find(b=>b.id===s.selected);
+ const compactReading=current?.id==='phantom';
  function change(patch:Partial<State>,replace=false){const next=normalize({...s,...patch});set(next);history[replace?'replaceState':'pushState'](null,'',url(next));try{localStorage.setItem('numz-atlas-language',next.lang)}catch{}setCopied(false);}
  useEffect(()=>{const pop=()=>{set(read());setCopied(false)};window.addEventListener('popstate',pop);return()=>window.removeEventListener('popstate',pop)},[]);
  useEffect(()=>{document.documentElement.lang=s.lang;document.title=current?`${current.name} | Brand Atlas by elo`:'Brand Atlas by elo'},[s.lang,current?.id]);
@@ -48,9 +49,13 @@ function App(){
    <div className="detail-head"><div className="fomo-doc-caption muted">{current.name}{current.dates&&<span className="period">{current.dates}</span>}</div><Button className="copy-link" size="sm" variant="ghost" onClick={copy} lang="en">{copied?'Copied':'Copy link'}</Button><span className="sr-only" role="status">{copied?'Link copied':''}</span></div>
    <div key={current.id} className="case-content">
     <h2 className="fomo-doc-section-title take">{current[s.lang].title}</h2>
-    <Figure kind={current.id} labels={current[s.lang].diagram}/>
-    <p className="take-label fomo-doc-caption muted" lang="en">The decision</p>
+    <Figure kind={current.id} labels={current[s.lang].diagram} quietCaption={compactReading}/>
+    {!compactReading&&<p className="take-label fomo-doc-caption muted" lang="en">The decision</p>}
     <p className="fomo-doc-paragraph">{current[s.lang].decision}</p>
+    {compactReading?<>
+     <a className="compact-source fomo-doc-caption" href={current.url} target="_blank" rel="noreferrer" lang="en">{current.source} <span aria-hidden="true">↗</span></a>
+     <div className="compact-insights">{current[s.lang].application.split(/\n\s*\n/).map((insight,i)=><p className="fomo-doc-caption" key={i}>{insight}</p>)}</div>
+    </>:<>
     <div className="source-note fomo-doc-caption" lang="en"><span>Author’s account</span><a className="source" href={current.url} target="_blank" rel="noreferrer">Read the source ↗</a><span>{current.source}</span><span>{current.published}</span></div>
     <p className="evidence-limit fomo-doc-caption">{current[s.lang].limit}</p>
     <section className="application" aria-label="Application to our brief">
@@ -60,6 +65,7 @@ function App(){
      <PracticalCheck copy={current[s.lang]} id={current.id}/>
     </section>
     <div className="related" lang="en"><span className="fomo-doc-caption muted">Continue exploring</span><Button variant="ghost" onClick={()=>open(current.related,true)}>{brands.find(b=>b.id===current.related)?.name} →</Button></div>
+    </>}
    </div>
   </article>}
   </div>

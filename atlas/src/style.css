@@ -26,3 +26,5 @@
 @media(max-width:670px){.atlas .catalog{position:static;max-height:none;overflow:visible}.atlas .diagram-pair{gap:16px}.atlas .diagram-panel+.diagram-panel{padding-left:16px}.atlas .diagram-svg{height:118px}.atlas .source-note{column-gap:10px}.atlas .case-figure{margin:24px 0}.atlas .diagram-panel .fomo-figure-label{font-size:14px;line-height:20px}}
 @media(prefers-reduced-motion:reduce){.atlas .diagram-arrive{animation:none}}
 
+.atlas .compact-source{display:inline-block;max-width:100%;margin-top:2px;color:var(--atlas-muted);text-decoration:none;text-underline-offset:4px}.atlas .compact-source:hover{color:var(--atlas-ink);text-decoration:underline}.atlas .compact-source>span{white-space:nowrap}.atlas .compact-insights{margin-top:22px;padding-top:20px;border-top:1px solid var(--atlas-rule);color:var(--atlas-muted)}.atlas .compact-insights>p{margin:0}.atlas .compact-insights>p+p{margin-top:16px}
+
