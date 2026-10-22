@@ -22,5 +22,6 @@ for(const input of Object.keys(result.metafile.inputs)){
  }
 }
 await fs.writeFile(path.join(root,'LIBRARY_NOTICES.txt'),[...notices.values()].join('\n\n========================================\n\n'));
-await fs.writeFile(path.join(root,'build-receipt.json'),JSON.stringify({bytes:result.outputFiles[0].contents.length,externalImports:0,inputs:Object.keys(result.metafile.inputs).filter(x=>!x.includes('node_modules')),reference:'numz-motion@b6301fb0a05a5191c0961c6eda380733f18b5d9e',cases:8},null,2));
-console.log('Built eight-case atlas with no external runtime imports.');
+const {brands}=await import(pathToFileURL(path.join(root,'src/brands.ts')).href);
+await fs.writeFile(path.join(root,'build-receipt.json'),JSON.stringify({bytes:result.outputFiles[0].contents.length,externalImports:0,inputs:Object.keys(result.metafile.inputs).filter(x=>!x.includes('node_modules')),reference:'numz-motion@b6301fb0a05a5191c0961c6eda380733f18b5d9e',cases:brands.length},null,2));
+console.log(`Built ${brands.length}-case atlas with no external runtime imports.`);
