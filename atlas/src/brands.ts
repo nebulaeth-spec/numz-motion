@@ -1,7 +1,7 @@
 export type CaseCopy = {short:string;title:string;diagram?:[string,string]};
 export type SourceLink = {label:string;url:string;kind:'account'|'live'};
 export type CaseDate = {label:string;value:string;kind:'published'|'launched'|'announced'|'event'|'awarded'|'metadata'};
-export type FindingImage = {src:string;originalSrc?:string;width:number;height:number;canvas?:'light'|'dark';ru:{alt:string;caption?:string};en:{alt:string;caption?:string}};
+export type FindingImage = {src:string;originalSrc?:string;width:number;height:number;maxWidth?:number;canvas?:'light'|'dark';crop?:{x:number;y:number;width:number;height:number};ru:{alt:string;caption?:string};en:{alt:string;caption?:string}};
 export type FindingMediaGroup = {afterParagraph:number;images:FindingImage[];layout?:'single'|'pair'};
 export type BrandFinding = {id:string;links:SourceLink[];ru:string[];en:string[];images?:FindingImage[];mediaGroups?:FindingMediaGroup[];date?:CaseDate};
 export type BrandCase = {id:string;name:string;topics:string[];who:string;ru:CaseCopy;en:CaseCopy;findings:BrandFinding[];date?:CaseDate;hideDiagram?:boolean};
@@ -21,11 +21,19 @@ export const brands: BrandCase[] = [
     },
     "ru": {
       "short": "Жанр для AI-рекламы",
-      "title": "Новая техника получила свой жанр"
+      "title": "Новая техника получила свой жанр",
+      "diagram": [
+        "Документальная отправная точка",
+        "Сюрреалистический жанр"
+      ]
     },
     "en": {
       "short": "A genre for AI advertising",
-      "title": "A new technique found its own genre"
+      "title": "A new technique found its own genre",
+      "diagram": [
+        "A documentary starting point",
+        "A surreal advertising genre"
+      ]
     },
     "findings": [
       {
@@ -44,10 +52,30 @@ export const brands: BrandCase[] = [
             "url": "https://ambrook.com/blog/inside-ambrook/on-art-and-marketing",
             "kind": "account"
           }
+        ],
+        "mediaGroups": [
+          {
+            "afterParagraph": 1,
+            "layout": "single",
+            "images": [
+              {
+                "src": "./assets/ambrook-surrealism-8.jpg",
+                "width": 1080,
+                "height": 1350,
+                "ru": {
+                  "alt": "Реклама Ambrook: шкаф с бумагами в поле рядом с экраном учёта чеков."
+                },
+                "en": {
+                  "alt": "An Ambrook ad pairs a filing cabinet overflowing with papers in a field with the app’s receipts screen."
+                },
+                "maxWidth": 540
+              }
+            ]
+          }
         ]
       }
     ],
-    "hideDiagram": true
+    "hideDiagram": false
   },
   {
     "id": "brex",
@@ -64,11 +92,19 @@ export const brands: BrandCase[] = [
     },
     "ru": {
       "short": "Наследование цвета и формы",
-      "title": "AI унаследовал цвет автоматизации"
+      "title": "AI унаследовал цвет автоматизации",
+      "diagram": [
+        "Самостоятельный акцент",
+        "Фон и оболочка интерфейса"
+      ]
     },
     "en": {
       "short": "Inherited color and form",
-      "title": "AI inherited the colour of automation"
+      "title": "AI inherited the colour of automation",
+      "diagram": [
+        "A standalone accent",
+        "Background and interface container"
+      ]
     },
     "findings": [
       {
@@ -87,10 +123,40 @@ export const brands: BrandCase[] = [
             "url": "https://www.stephlusby.com/brex-ai",
             "kind": "account"
           }
+        ],
+        "mediaGroups": [
+          {
+            "afterParagraph": 2,
+            "layout": "pair",
+            "images": [
+              {
+                "src": "./assets/brex-existing-cues-9.webp",
+                "width": 1921,
+                "height": 1080,
+                "ru": {
+                  "alt": "Объёмная форма флага Brex из повторяющихся синих слоёв."
+                },
+                "en": {
+                  "alt": "The Brex flag becomes a three-dimensional form made of repeated blue layers."
+                }
+              },
+              {
+                "src": "./assets/brex-existing-cues-15.jpg",
+                "width": 1634,
+                "height": 958,
+                "ru": {
+                  "alt": "Блок сайта Brex с заголовком Go faster with Brex и объёмной графикой на фоне."
+                },
+                "en": {
+                  "alt": "A Brex website section places Go faster with Brex over a layered three-dimensional background."
+                }
+              }
+            ]
+          }
         ]
       }
     ],
-    "hideDiagram": true
+    "hideDiagram": false
   },
   {
     "id": "figma",
@@ -138,6 +204,25 @@ export const brands: BrandCase[] = [
             "url": "https://www.figma.com/blog/figma-on-figma-evolving-our-visual-language/",
             "kind": "account"
           }
+        ],
+        "mediaGroups": [
+          {
+            "afterParagraph": 1,
+            "layout": "single",
+            "images": [
+              {
+                "src": "./assets/figma-action-grammar-40.webp",
+                "width": 1408,
+                "height": 884,
+                "ru": {
+                  "alt": "Визуальная система Figma: цветовые слои слева и круглые узлы редактирования фигуры справа."
+                },
+                "en": {
+                  "alt": "Figma’s visual language pairs layered colour with circular edit nodes on a shape."
+                }
+              }
+            ]
+          }
         ]
       },
       {
@@ -161,9 +246,35 @@ export const brands: BrandCase[] = [
           "label": "13 Nov 2024",
           "value": "2024-11-13",
           "kind": "published"
-        }
+        },
+        "mediaGroups": [
+          {
+            "afterParagraph": 1,
+            "layout": "single",
+            "images": [
+              {
+                "src": "./assets/figma-figma-web-system-25.jpg",
+                "width": 1440,
+                "height": 1440,
+                "ru": {
+                  "alt": "Таблица переменных Figma: одинаковые роли фона, текста и кнопки получают значения в режимах White и Dark Green."
+                },
+                "en": {
+                  "alt": "A Figma variables table assigns different values to the same background, text and button roles in White and Dark Green modes."
+                },
+                "crop": {
+                  "x": 98,
+                  "y": 192,
+                  "width": 1200,
+                  "height": 478
+                }
+              }
+            ]
+          }
+        ]
       }
-    ]
+    ],
+    "hideDiagram": false
   },
   {
     "id": "mercury",
@@ -180,11 +291,19 @@ export const brands: BrandCase[] = [
     },
     "ru": {
       "short": "Финансовые данные как изображения",
-      "title": "Данные выбирают предметы для натюрморта"
+      "title": "Данные выбирают предметы для натюрморта",
+      "diagram": [
+        "География платежей",
+        "Глобус в натюрморте"
+      ]
     },
     "en": {
       "short": "Financial data as imagery",
-      "title": "Data chooses the objects in a still life"
+      "title": "Data chooses the objects in a still life",
+      "diagram": [
+        "Payment geography",
+        "A globe in the still life"
+      ]
     },
     "findings": [
       {
@@ -209,14 +328,14 @@ export const brands: BrandCase[] = [
             "afterParagraph": 1,
             "images": [
               {
-                "src": "./assets/mercury-objects-0s.webp",
+                "src": "./assets/mercury-final-native-1.5s.webp",
                 "width": 1920,
                 "height": 1080,
                 "ru": {
-                  "alt": "Лобстер из точек на столе Mercury Insights, образ категории travel"
+                  "alt": "Натюрморт Mercury с глобусом, цветами и предметами на столе, собранными из цветных точек"
                 },
                 "en": {
-                  "alt": "A point-rendered lobster on the Mercury Insights table, representing travel spending"
+                  "alt": "A Mercury still life with a globe, flowers and tabletop objects rendered in coloured points"
                 }
               }
             ],
@@ -225,7 +344,7 @@ export const brands: BrandCase[] = [
         ]
       }
     ],
-    "hideDiagram": true
+    "hideDiagram": false
   },
   {
     "id": "morph",
@@ -294,7 +413,8 @@ export const brands: BrandCase[] = [
           }
         ]
       }
-    ]
+    ],
+    "hideDiagram": false
   },
   {
     "id": "notion",
@@ -443,7 +563,8 @@ export const brands: BrandCase[] = [
           "kind": "published"
         }
       }
-    ]
+    ],
+    "hideDiagram": false
   },
   {
     "id": "phantom",
@@ -496,6 +617,25 @@ export const brands: BrandCase[] = [
             "url": "https://phantom.com/learn/blog/introducing-phantom-cash",
             "kind": "account"
           }
+        ],
+        "mediaGroups": [
+          {
+            "afterParagraph": 1,
+            "layout": "single",
+            "images": [
+              {
+                "src": "./assets/phantom-cash-extension-0.jpg",
+                "width": 1920,
+                "height": 1080,
+                "ru": {
+                  "alt": "Анонс Phantom Cash: типографическая наклейка, переливающаяся карта, металлический призрак и мягкое облако."
+                },
+                "en": {
+                  "alt": "The Phantom Cash announcement combines sticker-like typography, an iridescent card, a metallic ghost and a soft cloud."
+                }
+              }
+            ]
+          }
         ]
       }
     ],
@@ -503,7 +643,8 @@ export const brands: BrandCase[] = [
       "label": "30 Sep 2025",
       "value": "2025-09-30",
       "kind": "announced"
-    }
+    },
+    "hideDiagram": false
   },
   {
     "id": "robinhood",
@@ -515,11 +656,19 @@ export const brands: BrandCase[] = [
     "who": "PORTO ROCHA, Robinhood, Lauren Bamford, Sarah Pritchard",
     "ru": {
       "short": "Графика для новых финансовых тем",
-      "title": "Вместо общего мира — отдельные предметы"
+      "title": "Вместо общего мира — отдельные предметы",
+      "diagram": [
+        "Один подробный мир",
+        "Отдельные предметные метафоры"
+      ]
     },
     "en": {
       "short": "Graphics for new financial subjects",
-      "title": "From an entire world to individual objects"
+      "title": "From an entire world to individual objects",
+      "diagram": [
+        "One detailed world",
+        "Individual object metaphors"
+      ]
     },
     "findings": [
       {
@@ -543,10 +692,40 @@ export const brands: BrandCase[] = [
             "url": "https://robinhood.com/newsroom/a-new-visual-identity/",
             "kind": "account"
           }
+        ],
+        "mediaGroups": [
+          {
+            "afterParagraph": 1,
+            "layout": "pair",
+            "images": [
+              {
+                "src": "./assets/robinhood-image-language-77.jpg",
+                "width": 1500,
+                "height": 2000,
+                "ru": {
+                  "alt": "Реклама Robinhood в городе: зелёный плакат с технической иллюстрацией разнесённых колец."
+                },
+                "en": {
+                  "alt": "A Robinhood street ad uses a green poster with an exploded technical illustration of rings."
+                }
+              },
+              {
+                "src": "./assets/robinhood-image-language-118.jpg",
+                "width": 1500,
+                "height": 2000,
+                "ru": {
+                  "alt": "Предметная фотография сцепленных металлических карабинов из системы Robinhood."
+                },
+                "en": {
+                  "alt": "An object photograph of interlinked metal carabiners from Robinhood’s identity system."
+                }
+              }
+            ]
+          }
         ]
       }
     ],
-    "hideDiagram": true,
+    "hideDiagram": false,
     "date": {
       "label": "10 Oct 2024",
       "value": "2024-10-10",
@@ -599,6 +778,31 @@ export const brands: BrandCase[] = [
             "url": "https://www.cointracker.com/blog/defining-cointrackers-new-brand",
             "kind": "account"
           }
+        ],
+        "mediaGroups": [
+          {
+            "afterParagraph": 1,
+            "layout": "single",
+            "images": [
+              {
+                "src": "./assets/cointracker-eboCUjLJo0-10s.webp",
+                "width": 1920,
+                "height": 1080,
+                "ru": {
+                  "alt": "Три мобильных макета CoinTracker: первый экран, рассказ о скорости и отзывы клиентов."
+                },
+                "en": {
+                  "alt": "Three CoinTracker mobile layouts show the opening screen, a speed section and customer reviews."
+                },
+                "crop": {
+                  "x": 274,
+                  "y": 120,
+                  "width": 1376,
+                  "height": 840
+                }
+              }
+            ]
+          }
         ]
       }
     ],
@@ -616,14 +820,22 @@ export const brands: BrandCase[] = [
       "production"
     ],
     "who": "Henke Kongsvoll, Sam Hunt",
-    "hideDiagram": true,
+    "hideDiagram": false,
     "ru": {
       "short": "Параметры вместо одного рисунка",
-      "title": "У знака есть управляемая геометрия"
+      "title": "У знака есть управляемая геометрия",
+      "diagram": [
+        "Ширина, интервалы, радиусы",
+        "Камера и проекция"
+      ]
     },
     "en": {
       "short": "Parameters instead of one drawing",
-      "title": "A mark with adjustable geometry"
+      "title": "A mark with adjustable geometry",
+      "diagram": [
+        "Widths, spacing, radii",
+        "Camera and projection"
+      ]
     },
     "findings": [
       {
@@ -695,14 +907,22 @@ export const brands: BrandCase[] = [
       "production"
     ],
     "who": "basement.studio",
-    "hideDiagram": true,
+    "hideDiagram": false,
     "ru": {
       "short": "Оптические версии знака",
-      "title": "Маленький знак не становится большим"
+      "title": "Маленький знак не становится большим",
+      "diagram": [
+        "Версия для крупного размера",
+        "Малая версия без увеличения"
+      ]
     },
     "en": {
       "short": "Optical versions of a mark",
-      "title": "The small mark is not a large mark"
+      "title": "The small mark is not a large mark",
+      "diagram": [
+        "The large-size version",
+        "The small-size version stays small"
+      ]
     },
     "findings": [
       {
@@ -740,12 +960,16 @@ export const brands: BrandCase[] = [
                 "width": 1921,
                 "height": 1081,
                 "ru": {
-                  "alt": "Страница Incorrect use: нижнее правое правило запрещает увеличивать оптически скорректированный малый знак",
-                  "caption": "Нижнее правое правило ограничивает масштаб: версию для уменьшения нельзя использовать в крупных размерах."
+                  "alt": "Правило Speakeasy: уменьшенную версию знака нельзя использовать в большом размере"
                 },
                 "en": {
-                  "alt": "Incorrect use page: the bottom-right rule prohibits using the reduction version at larger sizes",
-                  "caption": "The bottom-right rule limits scale: the reduction version must not be used at larger sizes."
+                  "alt": "Speakeasy rule against enlarging the small-size mark"
+                },
+                "crop": {
+                  "x": 1420,
+                  "y": 560,
+                  "width": 450,
+                  "height": 320
                 }
               }
             ],
@@ -768,14 +992,22 @@ export const brands: BrandCase[] = [
       "variation"
     ],
     "who": "Ragged Edge",
-    "hideDiagram": true,
+    "hideDiagram": false,
     "ru": {
       "short": "Передача иллюстрационного почерка",
-      "title": "Следующую иллюстрацию задают словами"
+      "title": "Следующую иллюстрацию задают словами",
+      "diagram": [
+        "Задача, чувство, метафора, цвет",
+        "Новый коллаж в общей манере"
+      ]
     },
     "en": {
       "short": "Passing on an illustration style",
-      "title": "The next illustration starts with words"
+      "title": "The next illustration starts with words",
+      "diagram": [
+        "Task, feeling, metaphor, colour",
+        "A new collage in the shared style"
+      ]
     },
     "findings": [
       {
@@ -825,14 +1057,22 @@ export const brands: BrandCase[] = [
       "variation"
     ],
     "who": "Aaron Marks",
-    "hideDiagram": true,
+    "hideDiagram": false,
     "ru": {
       "short": "Временный язык запуска",
-      "title": "Выразительность может быть рассчитана на запуск"
+      "title": "Выразительность может быть рассчитана на запуск",
+      "diagram": [
+        "Пиксельная сетка отвергнута",
+        "Метафора окна сохранена"
+      ]
     },
     "en": {
       "short": "A temporary launch language",
-      "title": "An expressive system can belong to a launch"
+      "title": "An expressive system can belong to a launch",
+      "diagram": [
+        "The pixel grid was rejected",
+        "The window metaphor remained"
+      ]
     },
     "findings": [
       {
@@ -887,14 +1127,22 @@ export const brands: BrandCase[] = [
       "variation"
     ],
     "who": "Tonik, LangChain",
-    "hideDiagram": true,
+    "hideDiagram": false,
     "ru": {
       "short": "Событие и внешний бренд-кит",
-      "title": "Свобода конференции и строгость логотипа сосуществуют"
+      "title": "Свобода конференции и строгость логотипа сосуществуют",
+      "diagram": [
+        "Заданные пропорции знака",
+        "Отдельная сетка события"
+      ]
     },
     "en": {
       "short": "An event and an external brand kit",
-      "title": "An event’s freedom can coexist with a fixed logo"
+      "title": "An event’s freedom can coexist with a fixed logo",
+      "diagram": [
+        "Defined logo proportions",
+        "An independent event grid"
+      ]
     },
     "findings": [
       {
@@ -918,6 +1166,36 @@ export const brands: BrandCase[] = [
             "url": "https://www.langchain.com/brand-assets",
             "kind": "account"
           }
+        ],
+        "mediaGroups": [
+          {
+            "afterParagraph": 1,
+            "layout": "pair",
+            "images": [
+              {
+                "src": "./assets/langchain-langchain-10.webp",
+                "width": 2720,
+                "height": 1494,
+                "ru": {
+                  "alt": "Навигация Shannon Workshop на площадке Interrupt: прозрачные перегородки с градиентами и разветвляющимися линиями."
+                },
+                "en": {
+                  "alt": "Shannon Workshop wayfinding at Interrupt uses gradients and branching lines on transparent partitions."
+                }
+              },
+              {
+                "src": "./assets/langchain-langchain-14.webp",
+                "width": 2720,
+                "height": 1228,
+                "ru": {
+                  "alt": "Нижняя часть сайта Interrupt 2026: крупное 26, модульная сетка и разветвляющиеся пунктирные линии."
+                },
+                "en": {
+                  "alt": "The Interrupt 2026 website footer combines oversized 26 numerals, a modular grid and branching dotted lines."
+                }
+              }
+            ]
+          }
         ]
       }
     ],
@@ -935,14 +1213,22 @@ export const brands: BrandCase[] = [
       "production"
     ],
     "who": "Jordan Hetzer, Studio Freight",
-    "hideDiagram": true,
+    "hideDiagram": false,
     "ru": {
       "short": "Продолжение силами команды",
-      "title": "Характер системы зависит от того, кто её продолжает"
+      "title": "Характер системы зависит от того, кто её продолжает",
+      "diagram": [
+        "Плоские формы и фактуры",
+        "Продолжение в 2D-анимации"
+      ]
     },
     "en": {
       "short": "A system the team can continue",
-      "title": "A system changes with the people who continue it"
+      "title": "A system changes with the people who continue it",
+      "diagram": [
+        "Flat forms and textures",
+        "Continued through 2D animation"
+      ]
     },
     "findings": [
       {
@@ -998,14 +1284,22 @@ export const brands: BrandCase[] = [
       "motion"
     ],
     "who": "Mailchimp, DIA, Lauren Coutts",
-    "hideDiagram": true,
+    "hideDiagram": false,
     "ru": {
       "short": "Роли героя, движения и платформы",
-      "title": "Не каждое действие принадлежит Freddie"
+      "title": "Не каждое действие принадлежит Freddie",
+      "diagram": [
+        "Письмо отправлено сразу",
+        "Реклама ожидает запуска"
+      ]
     },
     "en": {
       "short": "Roles for character, motion and platform",
-      "title": "Freddie does not own every action"
+      "title": "Freddie does not own every action",
+      "diagram": [
+        "The email is sent immediately",
+        "The ad is waiting to launch"
+      ]
     },
     "findings": [
       {
@@ -1021,6 +1315,28 @@ export const brands: BrandCase[] = [
             "label": "Mailchimp, Designing the Freddie High Five",
             "url": "https://mailchimp.com/resources/designing-the-freddie-high-five-animation-for-facebook-ads/",
             "kind": "account"
+          }
+        ],
+        "mediaGroups": [
+          {
+            "afterParagraph": 1,
+            "layout": "single",
+            "images": [
+              {
+                "src": "./assets/mailchimp-three-concepts-frame-0.webp",
+                "width": 672,
+                "height": 291,
+                "ru": {
+                  "alt": "Три концепции анимации Mailchimp: насос, надувной кроссовок и рогатка с шаром Facebook.",
+                  "caption": "Насос, кроссовок и рогатка — три рассмотренных варианта ожидания запуска."
+                },
+                "en": {
+                  "alt": "Three Mailchimp animation concepts: a pump, an inflatable sneaker and a slingshot with a Facebook ball.",
+                  "caption": "A pump, a sneaker and a slingshot were three explored ways to represent waiting for launch."
+                },
+                "maxWidth": 336
+              }
+            ]
           }
         ]
       },
@@ -1081,14 +1397,22 @@ export const brands: BrandCase[] = [
       "variation"
     ],
     "who": "Aave",
-    "hideDiagram": true,
+    "hideDiagram": false,
     "ru": {
       "short": "Два исполнения Ronnie",
-      "title": "Знак и персонаж имеют разные степени свободы"
+      "title": "Знак и персонаж имеют разные степени свободы",
+      "diagram": [
+        "Знак: заданные параметры",
+        "Персонаж: варианты исполнения"
+      ]
     },
     "en": {
       "short": "Two treatments of Ronnie",
-      "title": "The mark and the character have different freedoms"
+      "title": "The mark and the character have different freedoms",
+      "diagram": [
+        "The mark: defined parameters",
+        "The character: varied treatments"
+      ]
     },
     "findings": [
       {
@@ -1151,14 +1475,22 @@ export const brands: BrandCase[] = [
       "production"
     ],
     "who": "Pentagram",
-    "hideDiagram": true,
+    "hideDiagram": false,
     "ru": {
       "short": "Инструменты для новых форм",
-      "title": "Вариативность передали вместе с инструментами"
+      "title": "Вариативность передали вместе с инструментами",
+      "diagram": [
+        "Ячейки вокруг содержимого",
+        "Ячеистые объёмные формы"
+      ]
     },
     "en": {
       "short": "Tools for producing new forms",
-      "title": "Variation was delivered with its tools"
+      "title": "Variation was delivered with its tools",
+      "diagram": [
+        "Cells around content",
+        "Cell-based volumes"
+      ]
     },
     "findings": [
       {
@@ -1177,6 +1509,56 @@ export const brands: BrandCase[] = [
             "url": "https://www.pentagram.com/work/cohere",
             "kind": "account"
           }
+        ],
+        "mediaGroups": [
+          {
+            "afterParagraph": 1,
+            "layout": "single",
+            "images": [
+              {
+                "src": "./assets/cohere-814186369-8s.webp",
+                "width": 720,
+                "height": 916,
+                "ru": {
+                  "alt": "Конструктор Cells as containers: выбор числа ячеек и макет Cohere из трёх областей."
+                },
+                "en": {
+                  "alt": "The Cells as containers tool shows its cell-count control beside a three-part Cohere layout."
+                },
+                "crop": {
+                  "x": 80,
+                  "y": 40,
+                  "width": 595,
+                  "height": 580
+                },
+                "maxWidth": 480
+              }
+            ]
+          },
+          {
+            "afterParagraph": 2,
+            "layout": "single",
+            "images": [
+              {
+                "src": "./assets/cohere-814180656-16s.webp",
+                "width": 1728,
+                "height": 1080,
+                "ru": {
+                  "alt": "Инструмент Cohere для 3D: цветные объекты и панель палитр, материалов и распределения цветов."
+                },
+                "en": {
+                  "alt": "Cohere’s 3D tool shows coloured objects beside controls for palettes, materials and colour allocation."
+                },
+                "crop": {
+                  "x": 1040,
+                  "y": 145,
+                  "width": 550,
+                  "height": 790
+                },
+                "maxWidth": 420
+              }
+            ]
+          }
         ]
       }
     ]
@@ -1188,14 +1570,22 @@ export const brands: BrandCase[] = [
       "production"
     ],
     "who": "Paul Jun",
-    "hideDiagram": true,
+    "hideDiagram": false,
     "ru": {
       "short": "Отбор между генерацией и выдачей",
-      "title": "Повторяемый формат становится инструментом"
+      "title": "Повторяемый формат становится инструментом",
+      "diagram": [
+        "Образцы и генерация",
+        "Отбор перед библиотекой"
+      ]
     },
     "en": {
       "short": "Curation between generation and delivery",
-      "title": "A recurring format becomes a tool"
+      "title": "A recurring format becomes a tool",
+      "diagram": [
+        "References and generation",
+        "Curation before the library"
+      ]
     },
     "findings": [
       {
@@ -1236,14 +1626,22 @@ export const brands: BrandCase[] = [
       "production"
     ],
     "who": "Zerion",
-    "hideDiagram": true,
+    "hideDiagram": false,
     "ru": {
       "short": "Графика и комплект для партнёра",
-      "title": "Сложность растёт поверх общего основания"
+      "title": "Сложность растёт поверх общего основания",
+      "diagram": [
+        "Общее веерное основание",
+        "Четыре ступени сложности"
+      ]
     },
     "en": {
       "short": "Graphics and a partner kit",
-      "title": "Complexity builds on a shared base"
+      "title": "Complexity builds on a shared base",
+      "diagram": [
+        "A shared fan-shaped base",
+        "Four levels of complexity"
+      ]
     },
     "findings": [
       {
@@ -1259,6 +1657,40 @@ export const brands: BrandCase[] = [
             "label": "Zerion, Visual Language",
             "url": "https://design.zerion.io/visual-language",
             "kind": "account"
+          }
+        ],
+        "mediaGroups": [
+          {
+            "afterParagraph": 1,
+            "layout": "pair",
+            "images": [
+              {
+                "src": "./assets/zerion-zerion-1-5.webp",
+                "width": 544,
+                "height": 544,
+                "ru": {
+                  "alt": "Первый уровень системы Zerion: веер из градиентных плоскостей.",
+                  "caption": "Первый и четвёртый уровни одной системы."
+                },
+                "en": {
+                  "alt": "The first level of Zerion’s system: a fan of gradient planes.",
+                  "caption": "The first and fourth levels of the same system."
+                },
+                "maxWidth": 272
+              },
+              {
+                "src": "./assets/zerion-zerion-1-8.webp",
+                "width": 544,
+                "height": 544,
+                "ru": {
+                  "alt": "Четвёртый уровень системы Zerion: тот же веер с паттернами, сложными силуэтами и объёмными объектами."
+                },
+                "en": {
+                  "alt": "The fourth level of Zerion’s system adds patterns, complex silhouettes and three-dimensional objects to the fan."
+                },
+                "maxWidth": 272
+              }
+            ]
           }
         ]
       },
@@ -1288,25 +1720,33 @@ export const brands: BrandCase[] = [
       "extension"
     ],
     "who": "Simon Eskildsen, turbopuffer",
-    "hideDiagram": true,
+    "hideDiagram": false,
     "ru": {
       "short": "Новый сюжет в знакомом мире",
-      "title": "Новый персонаж связывается с прежней формой"
+      "title": "Новый персонаж связывается с прежней формой",
+      "diagram": [
+        "Сюжет кампании",
+        "Сайт и технические обновления"
+      ]
     },
     "en": {
       "short": "A new story in a familiar world",
-      "title": "A new character meets an existing form"
+      "title": "A new character meets an existing form",
+      "diagram": [
+        "The campaign story",
+        "The site and technical updates"
+      ]
     },
     "findings": [
       {
         "id": "turbopuffer",
         "ru": [
           "В сентябре 2026 года turbopuffer представила корову, чтобы объяснить, почему продукты «puff». В материалах кампании она существует как настоящая корова на постере фильма и как пиксельный персонаж игры. На cowpuffs коровьи пятна соединены с округлой рыбоподобной формой пуффера.",
-          "Базовый пуффер при этом остаётся на превью основного сайта. Технический changelog от 15 сентября оформлен текстом в моноширинной вёрстке и обходится без коровы. Корова добавляет сюжет кампании рядом с сайтом, представленным пуффером, и отдельной текстовой подачей технических обновлений."
+          "Базовый пуффер при этом остаётся на превью основного сайта. Карточка августовского changelog оформлена текстом в моноширинной вёрстке и обходится без коровы. Корова добавляет сюжет кампании рядом с сайтом, представленным пуффером, и отдельной текстовой подачей технических обновлений."
         ],
         "en": [
           "In September 2026, turbopuffer introduced a cow to explain why its products “puff”. Campaign materials show a real cow on a film poster and a pixel character in a game preview. The cowpuffs combine cow-like patches with the rounded, fish-like shape of a puffer.",
-          "The original puffer remains on the main site’s preview image. The September 15 technical changelog uses monospaced text and contains no cow. The cow adds a campaign storyline alongside the puffer-led site and a separate, text-led channel for technical updates."
+          "The original puffer remains on the main site’s preview image. The August changelog card uses monospaced text and contains no cow. The cow adds a campaign storyline alongside the puffer-led site and a separate, text-led channel for technical updates."
         ],
         "links": [
           {
@@ -1370,14 +1810,22 @@ export const brands: BrandCase[] = [
       "motion"
     ],
     "who": "GitHub",
-    "hideDiagram": true,
+    "hideDiagram": false,
     "ru": {
       "short": "Движение по задаче и объекту",
-      "title": "Одно движение получает разные права в разных задачах"
+      "title": "Одно движение получает разные права в разных задачах",
+      "diagram": [
+        "Переход объясняет связь",
+        "Движение зависит от объекта"
+      ]
     },
     "en": {
       "short": "Motion by task and object",
-      "title": "The same movement has different permissions"
+      "title": "The same movement has different permissions",
+      "diagram": [
+        "Transitions explain relationships",
+        "Motion depends on the object"
+      ]
     },
     "findings": [
       {
@@ -1396,6 +1844,40 @@ export const brands: BrandCase[] = [
             "url": "https://brand.github.com/motion/principles",
             "kind": "account"
           }
+        ],
+        "mediaGroups": [
+          {
+            "afterParagraph": 2,
+            "layout": "pair",
+            "images": [
+              {
+                "src": "./assets/github-github-23-0s.webp",
+                "width": 1200,
+                "height": 1200,
+                "ru": {
+                  "alt": "Начальная фаза примера Container transform из руководства GitHub: фигурный жёлтый контур на синем фоне.",
+                  "caption": "Две фазы официального примера Container transform."
+                },
+                "en": {
+                  "alt": "The opening frame of GitHub’s Container transform example: a lobed yellow outline on blue.",
+                  "caption": "Two phases of the official Container transform example."
+                },
+                "maxWidth": 600
+              },
+              {
+                "src": "./assets/github-github-23-0.5s.webp",
+                "width": 1200,
+                "height": 1200,
+                "ru": {
+                  "alt": "Следующая фаза того же примера GitHub: контур превратился в прямоугольник с округлёнными углами."
+                },
+                "en": {
+                  "alt": "A later frame of the same GitHub example turns the contour into a rounded rectangle."
+                },
+                "maxWidth": 600
+              }
+            ]
+          }
         ]
       }
     ]
@@ -1408,14 +1890,22 @@ export const brands: BrandCase[] = [
       "production"
     ],
     "who": "BUCK",
-    "hideDiagram": true,
+    "hideDiagram": false,
     "ru": {
       "short": "Тон отдельно от назначения",
-      "title": "Характер рисунка и его работа — разные вопросы"
+      "title": "Характер рисунка и его работа — разные вопросы",
+      "diagram": [
+        "Общая манера рисунка",
+        "Разные роли в интерфейсе"
+      ]
     },
     "en": {
       "short": "Tone separate from function",
-      "title": "An illustration’s character and its job are separate questions"
+      "title": "An illustration’s character and its job are separate questions",
+      "diagram": [
+        "A shared illustration style",
+        "Different interface roles"
+      ]
     },
     "findings": [
       {

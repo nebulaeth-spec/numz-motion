@@ -18,9 +18,11 @@ Add a typed record to `src/brands.ts`: stable ID, name, characteristics, searcha
 
 Dates are optional on cases and findings. Their kind distinguishes publication, launch, announcement, event, award and source metadata. Preserve supported precision; an event year is not a publication date. A later finding can carry its own date.
 
-Use `mediaGroups` to position originals after a selected paragraph boundary, or `images` for an end group. Captions are optional. `originalSrc` supplies a full-size image for the enlargement dialog. An optional canvas preserves transparent source artwork in either theme.
+Use `mediaGroups` to position originals after a selected paragraph boundary, or `images` for an end group. Captions are optional. `originalSrc` supplies a full-size image for the enlargement dialog. An optional canvas preserves transparent source artwork in either theme. `crop` defines a native-pixel detail viewport without editing the source; the dialog retains the complete original. `maxWidth` caps inline display and prevents small originals from being enlarged.
 
-Add a schematic to `src/Figure.tsx` only when it explains a real mechanism. Labels remain HTML so the SVG does not shrink necessary text. Unknown figures render nothing. Text-only cases omit diagram data and set `hideDiagram`.
+Each current brand has a schematic introducing its mechanism. Extend `src/Figure.tsx` for new cases where a meaningful visual explanation is possible. Labels remain HTML so the SVG does not shrink necessary text. Unknown figures render nothing. Text-only exceptions omit diagram data and set `hideDiagram`.
+
+Before publication, inspect every changed case from heading through sources, including each media group. Review both languages, light and dark themes, and narrow screens. Check the relation between schematic, prose and original, the spacing around each, image quality and enlargement behaviour. A few representative screenshots do not establish collection-wide visual completion.
 
 The October review reassessed all nine previous cases. Eight remain with edited or expanded accounts. Linear's glass experiment is retained in research as product craft; the current public collection focuses on brand-system decisions. Fifteen additional brands broaden the collection.
 
