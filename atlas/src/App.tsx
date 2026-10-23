@@ -3,6 +3,7 @@ import {createRoot} from 'react-dom/client';
 import {Button} from './vendor/button';
 import {Input} from './vendor/input';
 import {brands} from './brands';
+import type {BrandFinding,FindingImage,CaseDate} from './brands';
 import {Figure} from './Figure';
 import {CaseImages} from './CaseImages';
 import {CopyLink} from './CopyLink';
@@ -14,10 +15,25 @@ const shadow=host.attachShadow({mode:'open'});
 const sheet=document.createElement('style');sheet.textContent=kitCss+'\n'+typography+'\n'+localCss;shadow.append(sheet);
 const mount=document.createElement('div');shadow.append(mount);
 type Lang='ru'|'en';
+function dateMeaning(d:CaseDate){return {published:'Source publication date',launched:'Project launch date',announced:'Product announcement date',event:'Event year',awarded:'Award year',metadata:'Year from source publication metadata'}[d.kind];}
+// Local intersection keeps the renderer compatible until the data contract adopts mediaGroups.
+type FindingMediaGroup={afterParagraph:number;images:FindingImage[];layout?:'single'|'pair'};
+type LayoutFinding=BrandFinding&{mediaGroups?:FindingMediaGroup[];date?:CaseDate};
+function FindingBody({finding,lang}:{finding:LayoutFinding;lang:Lang}){
+ const paragraphs=finding[lang];
+ const groups=finding.mediaGroups||[];
+ function mediaAt(boundary:number){return groups.map((group,i)=>{
+  // Invalid or translated paragraph counts never make editorial media disappear.
+  const requested=Number.isFinite(group.afterParagraph)?Math.floor(group.afterParagraph):paragraphs.length;
+  const position=Math.max(0,Math.min(paragraphs.length,requested));
+  return position===boundary&&group.images.length?<CaseImages key={`media-${i}`} images={group.images} lang={lang} layout={group.layout}/>:null;
+ });}
+ return <>{mediaAt(0)}{paragraphs.map((paragraph,i)=><React.Fragment key={i}><p className="fomo-doc-paragraph">{paragraph}</p>{mediaAt(i+1)}</React.Fragment>)}{finding.images?.length?<CaseImages images={finding.images} lang={lang}/>:null}</>;
+}
 type State={lang:Lang;q:string;mode:'alphabet'|'characteristics';letter:string;topic:string;selected:string;reading:boolean};
 const alphabet=[...new Set(brands.map(b=>b.name[0].toUpperCase()))].sort();
 const labels={all:'All',variation:'Variation',character:'Character',motion:'Motion',production:'Production',extension:'Extension',evolution:'Evolution'};
-function visible(s:State){return brands.filter(b=>(s.mode==='alphabet'?(s.letter==='all'||b.name[0].toUpperCase()===s.letter):(s.topic==='all'||b.topics.includes(s.topic)))&&[b.name,b.who,b.ru.short,b.ru.title,...b.ru.diagram,b.en.short,b.en.title,...b.en.diagram,...b.findings.flatMap(f=>[...f.links.map(link=>link.label),...f.ru,...f.en])].join(' ').toLowerCase().includes(s.q.toLowerCase().trim())).sort((a,b)=>a.name.localeCompare(b.name,'en',{sensitivity:'base',numeric:true}));}
+function visible(s:State){return brands.filter(b=>(s.mode==='alphabet'?(s.letter==='all'||b.name[0].toUpperCase()===s.letter):(s.topic==='all'||b.topics.includes(s.topic)))&&[b.name,b.who,b.ru.short,b.ru.title,...(b.ru.diagram||[]),b.en.short,b.en.title,...(b.en.diagram||[]),...b.findings.flatMap(f=>[...f.links.map(link=>link.label),...f.ru,...f.en])].join(' ').toLowerCase().includes(s.q.toLowerCase().trim())).sort((a,b)=>a.name.localeCompare(b.name,'en',{sensitivity:'base',numeric:true}));}
 function normalize(s:State){const list=visible(s);return {...s,selected:list.some(b=>b.id===s.selected)?s.selected:list[0]?.id||'',reading:list.length?s.reading:false};}
 function read():State{const p=new URLSearchParams(location.search);let saved='ru';try{saved=localStorage.getItem('numz-atlas-language')||'ru'}catch{}return normalize({lang:(p.get('lang')||saved)==='en'?'en':'ru',q:p.get('q')||'',mode:p.get('view')==='characteristics'?'characteristics':'alphabet',letter:alphabet.includes(p.get('letter')||'')?p.get('letter')!:'all',topic:Object.hasOwn(labels,p.get('topic')||'')?p.get('topic')!:'all',selected:p.get('brand')||'morph',reading:p.get('read')==='1'});}
 function url(s:State){const p=new URLSearchParams();p.set('lang',s.lang);if(s.selected)p.set('brand',s.selected);if(s.mode==='characteristics')p.set('view',s.mode);if(s.letter!=='all')p.set('letter',s.letter);if(s.topic!=='all')p.set('topic',s.topic);if(s.q)p.set('q',s.q);if(s.reading)p.set('read','1');return location.pathname+'?'+p.toString();}
@@ -42,13 +58,13 @@ function App(){
   <div className="catalog-layout"><section id="directory" className="catalog" aria-label="Brand directory" tabIndex={-1}><div className="catalog-meta" lang="en"><span className="muted fomo-doc-caption" role="status">{filtered.length} {filtered.length===1?'brand':'brands'}</span></div>{filtered.map(b=><button key={b.id} className="brand-row" data-brand={b.id} aria-pressed={current?.id===b.id} onClick={()=>open(b.id)}><span className="brand-name">{b.name}</span><span className="row-take">{b[s.lang].short}</span></button>)}{!filtered.length&&<div className="empty" lang="en"><p>No matches</p><Button variant="outline" onClick={()=>change({q:'',letter:'all',topic:'all'})}>Show all brands</Button></div>}</section>
   {current&&<article id="case" className="detail" aria-label={current.name} ref={detail} tabIndex={-1}>
    <Button className="mobile-back" variant="ghost" onClick={back} lang="en">← Back to directory</Button>
-   <div className="detail-head"><div className="fomo-doc-caption muted"><span>{current.name}</span>{current.date&&<time className="period" dateTime={current.date.value} title={current.date.kind==='published'?'Source publication date':'Project launch date'} aria-label={`${current.date.kind==='published'?'Source published':'Project launched'} ${current.date.label}`} lang="en">{current.date.label}</time>}</div><CopyLink key={url({...s,reading:true})} href={location.origin+url({...s,reading:true})}/></div>
-   <div key={current.id} className="case-content" data-illustrated={current.findings.some(finding=>finding.images?.length)}>
+   <div className="detail-head"><div className="fomo-doc-caption muted"><span>{current.name}</span>{current.date&&<time className="period" dateTime={current.date.value} title={dateMeaning(current.date)} aria-label={`${dateMeaning(current.date)} ${current.date.label}`} lang="en">{current.date.label}</time>}</div><CopyLink key={url({...s,reading:true})} href={location.origin+url({...s,reading:true})}/></div>
+   <div key={current.id} className="case-content" data-illustrated={current.findings.some((finding:LayoutFinding)=>finding.images?.length||finding.mediaGroups?.some(group=>group.images.length))}>
     <h2 className="fomo-doc-section-title take">{current[s.lang].title}</h2>
-    {!current.hideDiagram&&<Figure kind={current.id} labels={current[s.lang].diagram} quietCaption/>}
-    <div className="findings">{current.findings.map(finding=><section className="finding" id={`finding-${current.id}-${finding.id}`} key={finding.id}>
-     {finding[s.lang].map((paragraph,i)=><p key={i} className="fomo-doc-paragraph">{paragraph}</p>)}
-     {finding.images?.length?<CaseImages images={finding.images} lang={s.lang}/>:null}
+    {!current.hideDiagram&&current[s.lang].diagram&&<Figure kind={current.id} labels={current[s.lang].diagram} quietCaption/>}
+    <div className="findings">{current.findings.map((finding:LayoutFinding,index)=><section className="finding" id={`finding-${current.id}-${finding.id}`} key={finding.id}>
+     {finding.date&&!(index===0&&finding.date.value===current.date?.value&&finding.date.kind===current.date?.kind)&&<time className="finding-date fomo-doc-caption muted" dateTime={finding.date.value} title={dateMeaning(finding.date)} aria-label={`${dateMeaning(finding.date)} ${finding.date.label}`} lang="en">{finding.date.label}</time>}
+     <FindingBody finding={finding} lang={s.lang}/>
      <div className="finding-sources" lang="en">{finding.links.map(link=><a key={link.url} className="fomo-doc-caption" href={link.url} target="_blank" rel="noopener noreferrer" aria-label={`${link.label}, opens in a new tab`}>{link.label}<span aria-hidden="true">{'\u00a0'}↗</span></a>)}</div>
     </section>)}</div>
    </div>

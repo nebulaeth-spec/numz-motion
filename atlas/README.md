@@ -2,24 +2,30 @@
 
 [Open the atlas](https://nebulaeth-spec.github.io/numz-motion/atlas/)
 
-Nine brand studies in English and Russian, revised on 22 October 2026. Each finding combines a documented case and its interpretation in continuous prose. The interface stays in English. Light and dark themes retain Landing Motion’s palette and embedded Inter fonts.
+A personal collection of 23 brands and 29 findings in English and Russian, revised on 23 October 2026. The interface stays in English. Light and dark themes share the palette and embedded Inter fonts of Landing Motion.
 
-## Reading And Sources
+## Editorial Contract
 
-Sources follow each finding, aligned right, one link per line. The first names the author or studio and the actual source. An optional second link leads to the relevant live work, explicitly labeled as a live site. A live page illustrates the result; it does not establish the historical reasoning or independently validate effects. Text fragments lead to the relevant passage when available and fall back to the source page.
+The atlas collects concrete decisions about brand systems: how they are built, varied, extended, produced and maintained. A finding needs a traceable source and a complete useful thought. Relevance to any one internal product is not required. A studio's explanation establishes its approach, not measured recognition, trust or business performance.
 
-A rule separates independent findings, never a case from its interpretation. Notion contains two findings. Known dates appear once in the header, with their precision and meaning retained. The Brex date is a launch month; other displayed dates are source publication dates. Unknown dates are omitted. A new finding from a different period needs its own date treatment before publication.
+Each finding combines the case and its interpretation in localized paragraphs, followed by right-aligned source links. A rule separates independent findings. There are no separate internal application instructions, mandatory concluding sentences or compulsory image slots.
 
-The text has no reader exercises or internal brief instructions. Authors’ accounts, interpretation and material limits remain distinguishable through the prose. No case establishes a universal rule or an unreported audience effect.
+Images and schematics earn their place by explaining the exact passage. A schematic can introduce a principle and an original can demonstrate a detail later. Captions add information beyond the image and neighbouring prose. Quantity and placement vary by case. Originals retain their palette. Larger delivery exports open the full source on demand; encoding records distinguish lossless copies from resized delivery versions.
 
-## Extend The Collection
+## Extend the Collection
 
-Add a typed record to src/brands.ts with a stable ID, name, characteristics, searchable contributors, optional date, localized title and index line, two schematic labels, and findings. Each finding has a stable ID, complete Russian and English paragraphs, and a links array with label, URL and role. The index, filters, count and search derive from these records.
+Add a typed record to `src/brands.ts`: stable ID, name, characteristics, searchable contributors, complete RU/EN index lines and titles, and one or more sourced findings. Contributors name people and studios credited for the project; article writers are attributed through source links. A–Z, search, filters and count update automatically.
 
-Add an analytical schematic in src/Figure.tsx. These are original explanatory drawings, not brand logos or reproductions. Captions identify this for assistive technology. Geometry stays in SVG and labels stay in HTML. Respect reduced motion.
+Dates are optional on cases and findings. Their kind distinguishes publication, launch, announcement, event, award and source metadata. Preserve supported precision; an event year is not a publication date. A later finding can carry its own date.
+
+Use `mediaGroups` to position originals after a selected paragraph boundary, or `images` for an end group. Captions are optional. `originalSrc` supplies a full-size image for the enlargement dialog. An optional canvas preserves transparent source artwork in either theme.
+
+Add a schematic to `src/Figure.tsx` only when it explains a real mechanism. Labels remain HTML so the SVG does not shrink necessary text. Unknown figures render nothing. Text-only cases omit diagram data and set `hideDiagram`.
+
+The October review reassessed all nine previous cases. Eight remain with edited or expanded accounts. Linear's glass experiment is retained in research as product craft; the current public collection focuses on brand-system decisions. Fifteen additional brands broaden the collection.
 
 ## Build
 
-With Node 24 or later, install the pinned dependencies in package.json, then run npm run build. GitHub Pages serves this directory without a server. Query parameters retain language, case and filters. Browser storage holds language and theme preferences. There are no analytics or external runtime requests.
+With Node 24 or later, install the pinned dependencies in `package.json`, then run `npm run build`. GitHub Pages serves this directory without a server. Query parameters preserve language, case and filters. Theme and language preferences stay in the reader's browser. There are no analytics or external runtime requests.
 
-Approved components remain under src/vendor. Licenses accompany the release. This page and its source are public; search-engine indexing is discouraged.
+Approved component implementations are retained under `src/vendor`. Third-party notices accompany the release. This page and its source are public; search-engine indexing is discouraged.
