@@ -47,7 +47,8 @@ function App(){
     <h2 className="fomo-doc-section-title take">{current[s.lang].title}</h2>
     {!current.hideDiagram&&<Figure kind={current.id} labels={current[s.lang].diagram} quietCaption/>}
     <div className="findings">{current.findings.map(finding=><section className="finding" id={`finding-${current.id}-${finding.id}`} key={finding.id}>
-     {finding[s.lang].map((paragraph,i)=><React.Fragment key={i}><p className="fomo-doc-paragraph">{paragraph}</p>{finding.images?.length&&i===Math.min(1,finding[s.lang].length-1)?<CaseImages images={finding.images} lang={s.lang}/>:null}</React.Fragment>)}
+     {finding[s.lang].map((paragraph,i)=><p key={i} className="fomo-doc-paragraph">{paragraph}</p>)}
+     {finding.images?.length?<CaseImages images={finding.images} lang={s.lang}/>:null}
      <div className="finding-sources" lang="en">{finding.links.map(link=><a key={link.url} className="fomo-doc-caption" href={link.url} target="_blank" rel="noopener noreferrer" aria-label={`${link.label}, opens in a new tab`}>{link.label}<span aria-hidden="true">{'\u00a0'}↗</span></a>)}</div>
     </section>)}</div>
    </div>

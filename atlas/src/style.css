@@ -31,10 +31,10 @@
 
 
 /* Reference imagery shares the article rhythm; source artwork keeps its own palette. */
-.atlas .case-content[data-illustrated=true]>.take{margin-bottom:20px}
 .atlas .case-images{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin:28px 0}
 .atlas .case-images figure{margin:0;min-width:0}
-.atlas .image-open{display:block;width:100%;padding:0;border:0;border-radius:0;background:transparent;cursor:zoom-in;color:inherit}
+.atlas .image-open{position:relative;display:block;width:100%;padding:0;border:0;border-radius:0;background:transparent;cursor:zoom-in;color:inherit}
+.atlas .image-enlarge{position:absolute;right:8px;bottom:8px;display:grid;place-items:center;width:28px;height:28px;background:var(--atlas-paper);color:var(--atlas-ink);font-size:16px;line-height:24px;opacity:.9}
 .atlas .image-open img{display:block;width:100%;height:auto}
 .atlas .image-open:focus-visible{outline:2px solid var(--atlas-ink);outline-offset:5px}
 .atlas .case-images figcaption{margin:10px 0 0;color:var(--atlas-muted)}
@@ -42,7 +42,7 @@
 .atlas .image-dialog::backdrop{background:rgba(0,0,0,.78)}
 .atlas .image-dialog-toolbar{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:12px}
 .atlas .image-dialog-toolbar p{margin:0;color:var(--atlas-muted)}
-.atlas .image-dialog-toolbar button{flex-shrink:0;min-height:44px;font-weight:400}
+.atlas .image-dialog-toolbar button{flex-shrink:0;min-height:44px;font-weight:400;margin-left:auto}
 .atlas .image-dialog>img{display:block;margin:auto;width:auto;height:auto;max-width:100%;max-height:calc(100dvh - 148px);object-fit:contain}
 @media(max-width:670px){.atlas .case-images{grid-template-columns:1fr;gap:24px;margin:24px 0}.atlas .image-dialog{padding:12px}.atlas .image-dialog-toolbar{gap:12px}}
 

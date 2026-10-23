@@ -1,6 +1,6 @@
 export type CaseCopy = {short:string;title:string;diagram:[string,string]};
 export type SourceLink = {label:string;url:string;kind:'account'|'live'};
-export type FindingImage = {src:string;width:number;height:number;ru:{alt:string;caption:string};en:{alt:string;caption:string}};
+export type FindingImage = {src:string;width:number;height:number;ru:{alt:string;caption?:string};en:{alt:string;caption?:string}};
 export type BrandFinding = {id:string;links:SourceLink[];ru:string[];en:string[];images?:FindingImage[]};
 export type CaseDate = {label:string;value:string;kind:'published'|'launched'};
 export type BrandCase = {id:string;name:string;topics:string[];who:string;ru:CaseCopy;en:CaseCopy;findings:BrandFinding[];date?:CaseDate;hideDiagram?:boolean};
@@ -257,7 +257,6 @@ export const brands: BrandCase[] = [
   },
   {
     "id": "morph",
-    "hideDiagram": true,
     "name": "Morph",
     "topics": [
       "character",
@@ -306,12 +305,10 @@ export const brands: BrandCase[] = [
             "width": 1500,
             "height": 2000,
             "ru": {
-              "alt": "Зелёный плакат Morph: Morphy в точечном растре, округлая надпись web3 и мелкий пиксельный знак",
-              "caption": "Плакат: точечный растр и округлая типографика."
+              "alt": "Зелёный плакат Morph: Morphy в точечном растре, округлая надпись web3 и мелкий пиксельный знак"
             },
             "en": {
-              "alt": "Green Morph poster with a halftone Morphy, rounded web3 lettering and a small pixel mark",
-              "caption": "Poster: halftone and rounded lettering."
+              "alt": "Green Morph poster with a halftone Morphy, rounded web3 lettering and a small pixel mark"
             }
           },
           {
@@ -319,12 +316,10 @@ export const brands: BrandCase[] = [
             "width": 1500,
             "height": 2000,
             "ru": {
-              "alt": "Визуал зелёной сумки на ухе: растровое изображение Morphy над крупной надписью Morph",
-              "caption": "Сумка: тот же герой и крупный гротеск."
+              "alt": "Визуал зелёной сумки на ухе: растровое изображение Morphy над крупной надписью Morph"
             },
             "en": {
-              "alt": "A green bag pictured on an ear, with a halftone Morphy above large Morph lettering",
-              "caption": "Bag: the same character with a bold sans serif."
+              "alt": "A green bag pictured on an ear, with a halftone Morphy above large Morph lettering"
             }
           }
         ]
