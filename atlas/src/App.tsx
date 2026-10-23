@@ -4,6 +4,7 @@ import {Button} from './vendor/button';
 import {Input} from './vendor/input';
 import {brands} from './brands';
 import {Figure} from './Figure';
+import {CaseImages} from './CaseImages';
 import kitCss from './vendor/kit.css';
 import typography from './typography.css';
 import localCss from './style.css';
@@ -42,17 +43,18 @@ function App(){
   {current&&<article id="case" className="detail" aria-label={current.name} ref={detail} tabIndex={-1}>
    <Button className="mobile-back" variant="ghost" onClick={back} lang="en">← Back to directory</Button>
    <div className="detail-head"><div className="fomo-doc-caption muted"><span>{current.name}</span>{current.date&&<time className="period" dateTime={current.date.value} title={current.date.kind==='published'?'Source publication date':'Project launch date'} aria-label={`${current.date.kind==='published'?'Source published':'Project launched'} ${current.date.label}`} lang="en">{current.date.label}</time>}</div><Button className="copy-link" size="sm" variant="ghost" onClick={copy} lang="en">{copied?'Copied':'Copy link'}</Button><span className="sr-only" role="status">{copied?'Link copied':''}</span></div>
-   <div key={current.id} className="case-content">
+   <div key={current.id} className="case-content" data-illustrated={current.findings.some(finding=>finding.images?.length)}>
     <h2 className="fomo-doc-section-title take">{current[s.lang].title}</h2>
-    <Figure kind={current.id} labels={current[s.lang].diagram} quietCaption/>
+    {!current.hideDiagram&&<Figure kind={current.id} labels={current[s.lang].diagram} quietCaption/>}
     <div className="findings">{current.findings.map(finding=><section className="finding" id={`finding-${current.id}-${finding.id}`} key={finding.id}>
-     {finding[s.lang].map((paragraph,i)=><p className="fomo-doc-paragraph" key={i}>{paragraph}</p>)}
+     {finding[s.lang].map((paragraph,i)=><React.Fragment key={i}><p className="fomo-doc-paragraph">{paragraph}</p>{finding.images?.length&&i===Math.min(1,finding[s.lang].length-1)?<CaseImages images={finding.images} lang={s.lang}/>:null}</React.Fragment>)}
      <div className="finding-sources" lang="en">{finding.links.map(link=><a key={link.url} className="fomo-doc-caption" href={link.url} target="_blank" rel="noopener noreferrer" aria-label={`${link.label}, opens in a new tab`}>{link.label}<span aria-hidden="true">{'\u00a0'}↗</span></a>)}</div>
     </section>)}</div>
    </div>
   </article>}
   </div>
-  <footer className="fomo-doc-caption" lang="en"><span>Revised 22 October 2026</span><a href="../">Landing Motion ↗</a></footer>
+  <footer className="fomo-doc-caption" lang="en"><span>Revised 23 October 2026</span><a href="../">Landing Motion ↗</a></footer>
  </main>
 }
 createRoot(mount).render(<App/>);
+

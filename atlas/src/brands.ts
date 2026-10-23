@@ -1,8 +1,9 @@
 export type CaseCopy = {short:string;title:string;diagram:[string,string]};
 export type SourceLink = {label:string;url:string;kind:'account'|'live'};
-export type BrandFinding = {id:string;links:SourceLink[];ru:string[];en:string[]};
+export type FindingImage = {src:string;width:number;height:number;ru:{alt:string;caption:string};en:{alt:string;caption:string}};
+export type BrandFinding = {id:string;links:SourceLink[];ru:string[];en:string[];images?:FindingImage[]};
 export type CaseDate = {label:string;value:string;kind:'published'|'launched'};
-export type BrandCase = {id:string;name:string;topics:string[];who:string;ru:CaseCopy;en:CaseCopy;findings:BrandFinding[];date?:CaseDate};
+export type BrandCase = {id:string;name:string;topics:string[];who:string;ru:CaseCopy;en:CaseCopy;findings:BrandFinding[];date?:CaseDate;hideDiagram?:boolean};
 export const brands: BrandCase[] = [
   {
     "id": "ambrook",
@@ -256,6 +257,7 @@ export const brands: BrandCase[] = [
   },
   {
     "id": "morph",
+    "hideDiagram": true,
     "name": "Morph",
     "topics": [
       "character",
@@ -263,16 +265,16 @@ export const brands: BrandCase[] = [
     ],
     "who": "Studio Freight Morph",
     "ru": {
-      "short": "Новая фактура прежнего персонажа",
-      "title": "Другой материал, знакомая форма",
+      "short": "Тот же персонаж, другая обработка",
+      "title": "Новый стиль без нового персонажа",
       "diagram": [
         "Форма сохраняется",
         "Обработка меняется"
       ]
     },
     "en": {
-      "short": "A new texture for an existing character",
-      "title": "A different treatment, a familiar form",
+      "short": "The same character, a different treatment",
+      "title": "A new style without a new character",
       "diagram": [
         "Shape held",
         "Treatment changed"
@@ -282,18 +284,48 @@ export const brands: BrandCase[] = [
       {
         "id": "render-treatments",
         "ru": [
-          "Разрабатывая мерч Morph, Studio Freight сначала одновременно изменила палитру, типографику и изображение Morphy. Направление показалось студии слишком далёким от бренда. Команда вернулась к исходным 3D-рендерам, превратила их в растр и пиксельную графику, а ведущую роль снова отдала зелёному.",
-          "Эксперимент сохранился в обработке изображения, тогда как исходный персонаж и главный цвет стали опорами. Кейс показывает конкретную границу вариативности, найденную через неудачную попытку. Это оценка самих дизайнеров, а не измеренный порог узнаваемости."
+          "Разрабатывая мерч Morph, Studio Freight сначала одновременно изменила цвета, шрифты и самого Morphy — большеглазого персонажа бренда. По оценке студии, результат слишком отдалился от Morph. При следующей попытке дизайнеры вернулись к прежним 3D-рендерам героя и стали менять способ их обработки: объёмное изображение переводили в точечный растр и пиксельную графику.",
+          "Зелёный снова стал главным цветом, а жёлтый, розовый и синий — дополнительными акцентами. Шрифты при этом могли меняться: в работу вошли и тяжёлые гротески, и пиксельные начертания. На плакате и визуале сумки ниже видно, как растр соединяет того же Morphy с разной типографикой на зелёном фоне.",
+          "Так у экспериментов появилась конкретная граница: сохранялись герой и ведущий цвет, а фактура и шрифты оставались переменными. Готовый 3D-рендер стал материалом для нескольких графических техник. Для смены настроения мерча больше не требовалось заново придумывать персонажа."
         ],
         "en": [
-          "While developing Morph merchandise, Studio Freight initially changed the palette, typography and depiction of Morphy together. The studio felt the direction had drifted too far. It returned to the original 3D renders, applied halftone and pixel treatments, and restored green as the leading color.",
-          "Experimentation continued through image treatment, with the original character and lead color providing anchors. The case reveals a specific boundary found through a rejected exploration. It records the designers’ judgment rather than a measured threshold of recognition."
+          "While developing Morph merchandise, Studio Freight initially changed the colors, type and Morphy himself, the brand’s wide-eyed character. The studio felt the result had moved too far from Morph. On the next pass, the designers returned to the existing 3D renders and varied their treatment, translating the dimensional image into halftone and pixel graphics.",
+          "Green became the leading color again, with yellow, pink and blue as supporting accents. Typography remained flexible, including heavy sans serifs and pixel fonts. The poster and bag visual below show how halftone connects the same Morphy to different typography on a green ground.",
+          "This gave the experiments a specific boundary: the character and leading color stayed in place, while texture and type could vary. An existing 3D render became source material for several graphic techniques. A change in the merchandise’s mood no longer required a newly invented character."
         ],
         "links": [
           {
             "label": "Studio Freight, Morph",
             "url": "https://studiofreight.com/work/morph",
             "kind": "account"
+          }
+        ],
+        "images": [
+          {
+            "src": "./assets/morph-poster.png",
+            "width": 1500,
+            "height": 2000,
+            "ru": {
+              "alt": "Зелёный плакат Morph: Morphy в точечном растре, округлая надпись web3 и мелкий пиксельный знак",
+              "caption": "Плакат: точечный растр и округлая типографика."
+            },
+            "en": {
+              "alt": "Green Morph poster with a halftone Morphy, rounded web3 lettering and a small pixel mark",
+              "caption": "Poster: halftone and rounded lettering."
+            }
+          },
+          {
+            "src": "./assets/morph-bag.png",
+            "width": 1500,
+            "height": 2000,
+            "ru": {
+              "alt": "Визуал зелёной сумки на ухе: растровое изображение Morphy над крупной надписью Morph",
+              "caption": "Сумка: тот же герой и крупный гротеск."
+            },
+            "en": {
+              "alt": "A green bag pictured on an ear, with a halftone Morphy above large Morph lettering",
+              "caption": "Bag: the same character with a bold sans serif."
+            }
           }
         ]
       }
@@ -459,3 +491,4 @@ export const brands: BrandCase[] = [
     ]
   }
 ];
+
